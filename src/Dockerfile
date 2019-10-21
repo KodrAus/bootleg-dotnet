@@ -50,12 +50,10 @@ RUN mkdir -p /dotnet/src/coreclr && cd /dotnet/src/coreclr; \
 
 RUN mkdir -p /dotnet/src/llvm && cd /dotnet/src/llvm; \
     git clone -b MS https://github.com/microsoft/llvm .; \
-    git checkout $MSLLVM_REF; \
-    rm -r .git; \
+    git checkout $MSLLVM_REF;
     mkdir build && mkdir -p tools/llilc && cd tools/llilc; \
     git clone https://github.com/dotnet/llilc .; \
-    git checkout $LLILC_REF; \
-    rm -r .git
+    git checkout $LLILC_REF
 
 RUN mkdir -p /dotnet/src/corert && cd /dotnet/src/corert; \
     git clone https://github.com/dotnet/corert.git .; \
@@ -81,7 +79,9 @@ RUN mkdir -p /dotnet/src/diagnostics && cd /dotnet/src/diagnostics; \
 RUN cd /dotnet/src/coreclr && ./build.sh -x64 -checked; \
     rm -r .git
 
-RUN cd /dotnet/src/llvm/build && \
+RUN cd /dotnet/src/llvm && rm -r .git; \
+    cd /dotnet/src/llvm/tools/llilc && rm -r .git; \
+    cd /dotnet/src/llvm/build && \
     cmake \
         -DCMAKE_C_COMPILER=clang-3.9 \
         -DCMAKE_CXX_COMPILER=clang++-3.9 \
