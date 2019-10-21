@@ -46,8 +46,7 @@ RUN mkdir -p /dotnet/dist/bin && mkdir -p /dotnet/dist/packages
 
 RUN mkdir -p /dotnet/src/coreclr && cd /dotnet/src/coreclr; \
     git clone https://github.com/dotnet/coreclr.git .; \
-    git checkout $CORECLR_REF; \
-    rm -r .git
+    git checkout $CORECLR_REF
 
 RUN mkdir -p /dotnet/src/llvm && cd /dotnet/src/llvm; \
     git clone -b MS https://github.com/microsoft/llvm .; \
@@ -60,31 +59,27 @@ RUN mkdir -p /dotnet/src/llvm && cd /dotnet/src/llvm; \
 
 RUN mkdir -p /dotnet/src/corert && cd /dotnet/src/corert; \
     git clone https://github.com/dotnet/corert.git .; \
-    git checkout $CORERT_REF; \
-    rm -r .git
+    git checkout $CORERT_REF
 
 RUN mkdir -p /dotnet/src/corefx && cd /dotnet/src/corefx; \
     git clone https://github.com/dotnet/corefx.git .; \
-    git checkout $COREFX_REF; \
-    rm -r .git
+    git checkout $COREFX_REF
 
 RUN mkdir -p /dotnet/src/core-setup && cd /dotnet/src/core-setup; \
     git clone https://github.com/dotnet/core-setup.git .; \
-    git checkout $CORESETUP_REF; \
-    rm -r .git
+    git checkout $CORESETUP_REF
 
 RUN mkdir -p /dotnet/src/core-sdk && cd /dotnet/src/core-sdk; \
     git clone https://github.com/dotnet/core-sdk.git .; \
-    git checkout $CORESDK_REF; \
-    rm -r .git
+    git checkout $CORESDK_REF
 
 RUN mkdir -p /dotnet/src/diagnostics && cd /dotnet/src/diagnostics; \
     git clone https://github.com/dotnet/diagnostics.git .; \
-    git checkout $DIAGNOSTICS_REF; \
-    rm -r .git
+    git checkout $DIAGNOSTICS_REF
 
 # builds
-RUN cd /dotnet/src/coreclr && ./build.sh -x64 -checked
+RUN cd /dotnet/src/coreclr && ./build.sh -x64 -checked; \
+    rm -r .git
 
 RUN cd /dotnet/src/llvm/build && \
     cmake \
@@ -95,18 +90,23 @@ RUN cd /dotnet/src/llvm/build && \
     make
 
 RUN cd /dotnet/src/corert && ./build.sh x64 skiptests; \
-    ./buildscripts/build-packages.sh x64
+    ./buildscripts/build-packages.sh x64; \
+    rm -r .git
 
-RUN cd /dotnet/src/corefx && ./build.sh --arch x64 --warnAsError false
+RUN cd /dotnet/src/corefx && ./build.sh --arch x64 --warnAsError false; \
+    rm -r .git
 
 RUN cd /dotnet/src/core-setup && ./build.sh \
     --restore --build --pack \
     /p:CoreCLROverridePath=/dotnet/src/coreclr/bin/Product/Linux.x64.Checked \
-    /p:CoreFXOverridePath=/dotnet/src/corefx/artifacts/packages/Debug
+    /p:CoreFXOverridePath=/dotnet/src/corefx/artifacts/packages/Debug; \
+    rm -r .git
 
-RUN cd /dotnet/src/core-sdk && ./build.sh --architecture x64
+RUN cd /dotnet/src/core-sdk && ./build.sh --architecture x64; \
+    rm -r .git
 
-RUN cd /dotnet/src/diagnostics && ./build.sh --architecture x64
+RUN cd /dotnet/src/diagnostics && ./build.sh --architecture x64; \
+    rm -r .git
 
 # distribution
 RUN cp -r /dotnet/src/core-sdk/artifacts/bin/redist/Debug/dotnet/* /dotnet/dist/bin && \
