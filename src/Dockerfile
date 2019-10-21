@@ -30,6 +30,9 @@ RUN curl -L https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null 
     apt-get update && apt-get -y install --no-install-recommends \
     cmake
 
+RUN rm -rf /var/lib/apt/lists/*
+
+# sources
 ARG CORECLR_REF=9db8990bca7e0f44f60494d2608342a930d484ca
 ARG COREFX_REF=8d87e5cae96c5fb25ac21442bb56c337029d77a4
 ARG CORERT_REF=907e5299e28547e3f581120f49bb44fbde4a3808
@@ -39,39 +42,46 @@ ARG MSLLVM_REF=acd79ac4ce9b45a92052b8ca19d3e0fd62e4b55f
 ARG LLILC_REF=d9e6fd60ad0e22d2355187a304432ca9bcc953d1
 ARG DIAGNOSTICS_REF=95e92dbc744e03995a2d2f8b30e457babac312aa
 
-# sources
 RUN mkdir -p /dotnet/dist/bin && mkdir -p /dotnet/dist/packages
 
 RUN mkdir -p /dotnet/src/coreclr && cd /dotnet/src/coreclr; \
     git clone https://github.com/dotnet/coreclr.git .; \
-    git checkout $CORECLR_REF
+    git checkout $CORECLR_REF; \
+    rm -r .git
 
 RUN mkdir -p /dotnet/src/llvm && cd /dotnet/src/llvm; \
     git clone -b MS https://github.com/microsoft/llvm .; \
     git checkout $MSLLVM_REF; \
+    rm -r .git; \
     mkdir build && mkdir -p tools/llilc && cd tools/llilc; \
     git clone https://github.com/dotnet/llilc .; \
-    git checkout $LLILC_REF
+    git checkout $LLILC_REF; \
+    rm -r .git
 
 RUN mkdir -p /dotnet/src/corert && cd /dotnet/src/corert; \
     git clone https://github.com/dotnet/corert.git .; \
-    git checkout $CORERT_REF
+    git checkout $CORERT_REF; \
+    rm -r .git
 
 RUN mkdir -p /dotnet/src/corefx && cd /dotnet/src/corefx; \
     git clone https://github.com/dotnet/corefx.git .; \
-    git checkout $COREFX_REF
+    git checkout $COREFX_REF; \
+    rm -r .git
 
 RUN mkdir -p /dotnet/src/core-setup && cd /dotnet/src/core-setup; \
     git clone https://github.com/dotnet/core-setup.git .; \
-    git checkout $CORESETUP_REF
+    git checkout $CORESETUP_REF; \
+    rm -r .git
 
 RUN mkdir -p /dotnet/src/core-sdk && cd /dotnet/src/core-sdk; \
     git clone https://github.com/dotnet/core-sdk.git .; \
-    git checkout $CORESDK_REF
+    git checkout $CORESDK_REF; \
+    rm -r .git
 
 RUN mkdir -p /dotnet/src/diagnostics && cd /dotnet/src/diagnostics; \
     git clone https://github.com/dotnet/diagnostics.git .; \
-    git checkout $DIAGNOSTICS_REF
+    git checkout $DIAGNOSTICS_REF; \
+    rm -r .git
 
 # builds
 RUN cd /dotnet/src/coreclr && ./build.sh -x64 -checked
