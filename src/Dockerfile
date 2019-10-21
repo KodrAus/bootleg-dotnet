@@ -50,7 +50,7 @@ RUN mkdir -p /dotnet/src/coreclr && cd /dotnet/src/coreclr; \
 
 RUN mkdir -p /dotnet/src/llvm && cd /dotnet/src/llvm; \
     git clone -b MS https://github.com/microsoft/llvm .; \
-    git checkout $MSLLVM_REF;
+    git checkout $MSLLVM_REF; \
     mkdir build && mkdir -p tools/llilc && cd tools/llilc; \
     git clone https://github.com/dotnet/llilc .; \
     git checkout $LLILC_REF
