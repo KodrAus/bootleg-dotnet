@@ -30,17 +30,8 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
         cmake; \
     rm -rf /var/lib/apt/lists/*
 
-# sources
-ARG CORECLR_REF=9db8990bca7e0f44f60494d2608342a930d484ca
-ARG COREFX_REF=8d87e5cae96c5fb25ac21442bb56c337029d77a4
-ARG CORERT_REF=907e5299e28547e3f581120f49bb44fbde4a3808
-ARG CORESETUP_REF=32228f2ae5e68394197859608c8c6afb94276481
-ARG CORESDK_REF=ed966bdcc5a68ec63074fb6ee579a5506328c2c7
-ARG MSLLVM_REF=acd79ac4ce9b45a92052b8ca19d3e0fd62e4b55f
-ARG LLILC_REF=d9e6fd60ad0e22d2355187a304432ca9bcc953d1
-ARG DIAGNOSTICS_REF=95e92dbc744e03995a2d2f8b30e457babac312aa
-
 # coreclr
+ARG CORECLR_REF=9db8990bca7e0f44f60494d2608342a930d484ca
 RUN mkdir -p /dotnet/src/coreclr && cd /dotnet/src/coreclr; \
     git clone https://github.com/dotnet/coreclr.git .; \
     git checkout $CORECLR_REF; \
@@ -48,6 +39,8 @@ RUN mkdir -p /dotnet/src/coreclr && cd /dotnet/src/coreclr; \
     rm -r .git
 
 # llilc
+ARG MSLLVM_REF=acd79ac4ce9b45a92052b8ca19d3e0fd62e4b55f
+ARG LLILC_REF=d9e6fd60ad0e22d2355187a304432ca9bcc953d1
 RUN mkdir -p /dotnet/src/llvm && cd /dotnet/src/llvm; \
     git clone -b MS https://github.com/microsoft/llvm .; \
     git checkout $MSLLVM_REF; \
@@ -65,6 +58,7 @@ RUN mkdir -p /dotnet/src/llvm && cd /dotnet/src/llvm; \
     make
 
 # corefx
+ARG COREFX_REF=8d87e5cae96c5fb25ac21442bb56c337029d77a4
 RUN mkdir -p /dotnet/src/corefx && cd /dotnet/src/corefx; \
     git clone https://github.com/dotnet/corefx.git .; \
     git checkout $COREFX_REF; \
@@ -72,6 +66,7 @@ RUN mkdir -p /dotnet/src/corefx && cd /dotnet/src/corefx; \
     rm -r .git
 
 # corert
+ARG CORERT_REF=907e5299e28547e3f581120f49bb44fbde4a3808
 RUN mkdir -p /dotnet/src/corert && cd /dotnet/src/corert; \
     git clone https://github.com/dotnet/corert.git .; \
     git checkout $CORERT_REF; \
@@ -81,6 +76,7 @@ RUN mkdir -p /dotnet/src/corert && cd /dotnet/src/corert; \
     rm -r .git
 
 # diagnostics
+ARG DIAGNOSTICS_REF=95e92dbc744e03995a2d2f8b30e457babac312aa
 RUN mkdir -p /dotnet/src/diagnostics && cd /dotnet/src/diagnostics; \
     git clone https://github.com/dotnet/diagnostics.git .; \
     git checkout $DIAGNOSTICS_REF; \
@@ -88,6 +84,7 @@ RUN mkdir -p /dotnet/src/diagnostics && cd /dotnet/src/diagnostics; \
     rm -r .git
 
 # core-sdk
+ARG CORESDK_REF=ed966bdcc5a68ec63074fb6ee579a5506328c2c7
 RUN mkdir -p /dotnet/src/core-sdk && cd /dotnet/src/core-sdk; \
     git clone https://github.com/dotnet/core-sdk.git .; \
     git checkout $CORESDK_REF; \
@@ -95,6 +92,7 @@ RUN mkdir -p /dotnet/src/core-sdk && cd /dotnet/src/core-sdk; \
     rm -r .git
 
 # core-setup
+ARG CORESETUP_REF=32228f2ae5e68394197859608c8c6afb94276481
 RUN mkdir -p /dotnet/src/core-setup && cd /dotnet/src/core-setup; \
     git clone https://github.com/dotnet/core-setup.git .; \
     git checkout $CORESETUP_REF; \
