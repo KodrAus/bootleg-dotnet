@@ -1,0 +1,23 @@
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:  
+  - job: Build
+    timeoutInMinutes: 360
+    displayName: Build
+    pool: 'Default'
+    steps:
+    - task: CmdLine@2
+      displayName: Build toolchain
+      inputs:
+        script: docker build -t kodraus/dotnet-dev:latest src
+    - task: CmdLine@2
+      displayName: Test toolchain
+      inputs:
+        script: docker run -v $(pwd)/tests:/tests kodraus/dotnet-dev:latest /bin/bash -c 'cd /tests/ConsoleApp && dotnet run'
