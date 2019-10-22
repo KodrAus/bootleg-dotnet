@@ -13,16 +13,11 @@ stages:
     displayName: Build
     pool: 'Default'
     steps:
-    - task: Docker@2
+    - task: Bash@3
       displayName: Build toolchain
       inputs:
-        command: build
-        dockerfile: '$(Build.SourcesDirectory)/src/Dockerfile'
-        repository: kodraus/dotnet-dev
-        tags: |
-          latest
-          $(tag)
+        script: docker build -t kodraus/dotnet-dev:latest src
     - task: Bash@3
       displayName: Test toolchain
       inputs:
-        script: docker run -v $(Build.SourcesDirectory)/tests:/tests kodraus/dotnet-dev:latest /bin/bash -c 'cd /tests/ConsoleApp && dotnet run'
+        script: docker run -v $(pwd)/tests:/tests kodraus/dotnet-dev:latest /bin/bash -c 'cd /tests/ConsoleApp && dotnet run'
