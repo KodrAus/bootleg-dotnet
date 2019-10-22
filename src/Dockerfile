@@ -23,32 +23,32 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
         libunwind-dev \
         uuid-dev \
         zlib1g-dev \
-    2>&1; \
-    curl -L https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | apt-key add -; \
-    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'; \
+    2>&1 && \
+    curl -L https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | apt-key add - && \
+    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main' && \
     apt-get update && apt-get -y install --no-install-recommends \
-        cmake; \
+        cmake && \
     rm -rf /var/lib/apt/lists/*
 
 # coreclr
 ARG CORECLR_REF=9db8990bca7e0f44f60494d2608342a930d484ca
-RUN mkdir -p /dotnet/src/coreclr && cd /dotnet/src/coreclr; \
-    git clone https://github.com/dotnet/coreclr.git .; \
-    git checkout $CORECLR_REF; \
-    cd /dotnet/src/coreclr && ./build.sh -x64 -checked; \
+RUN mkdir -p /dotnet/src/coreclr && cd /dotnet/src/coreclr && \
+    git clone https://github.com/dotnet/coreclr.git . && \
+    git checkout $CORECLR_REF && \
+    cd /dotnet/src/coreclr && ./build.sh -x64 -checked && \
     rm -r .git
 
 # llilc
 ARG MSLLVM_REF=acd79ac4ce9b45a92052b8ca19d3e0fd62e4b55f
 ARG LLILC_REF=d9e6fd60ad0e22d2355187a304432ca9bcc953d1
-RUN mkdir -p /dotnet/src/llvm && cd /dotnet/src/llvm; \
-    git clone -b MS https://github.com/microsoft/llvm .; \
-    git checkout $MSLLVM_REF; \
-    rm -r .git; \
-    mkdir build && mkdir -p tools/llilc && cd tools/llilc; \
-    git clone https://github.com/dotnet/llilc .; \
-    git checkout $LLILC_REF; \
-    rm -r .git; \
+RUN mkdir -p /dotnet/src/llvm && cd /dotnet/src/llvm && \
+    git clone -b MS https://github.com/microsoft/llvm . && \
+    git checkout $MSLLVM_REF && \
+    rm -r .git && \
+    mkdir build && mkdir -p tools/llilc && cd tools/llilc && \
+    git clone https://github.com/dotnet/llilc . && \
+    git checkout $LLILC_REF && \
+    rm -r .git && \
     cd /dotnet/src/llvm/build && \
     cmake \
         -DCMAKE_C_COMPILER=clang-3.9 \
@@ -59,54 +59,54 @@ RUN mkdir -p /dotnet/src/llvm && cd /dotnet/src/llvm; \
 
 # corefx
 ARG COREFX_REF=8d87e5cae96c5fb25ac21442bb56c337029d77a4
-RUN mkdir -p /dotnet/src/corefx && cd /dotnet/src/corefx; \
-    git clone https://github.com/dotnet/corefx.git .; \
-    git checkout $COREFX_REF; \
-    cd /dotnet/src/corefx && ./build.sh --arch x64 --warnAsError false; \
+RUN mkdir -p /dotnet/src/corefx && cd /dotnet/src/corefx && \
+    git clone https://github.com/dotnet/corefx.git . && \
+    git checkout $COREFX_REF && \
+    cd /dotnet/src/corefx && ./build.sh --arch x64 --warnAsError false && \
     rm -r .git
 
 # corert
 ARG CORERT_REF=907e5299e28547e3f581120f49bb44fbde4a3808
-RUN mkdir -p /dotnet/src/corert && cd /dotnet/src/corert; \
-    git clone https://github.com/dotnet/corert.git .; \
-    git checkout $CORERT_REF; \
+RUN mkdir -p /dotnet/src/corert && cd /dotnet/src/corert && \
+    git clone https://github.com/dotnet/corert.git . && \
+    git checkout $CORERT_REF && \
     cd /dotnet/src/corert && \
-    ./build.sh x64 skiptests; \
-    ./buildscripts/build-packages.sh x64; \
+    ./build.sh x64 skiptests && \
+    ./buildscripts/build-packages.sh x64 && \
     rm -r .git
 
 # diagnostics
 ARG DIAGNOSTICS_REF=95e92dbc744e03995a2d2f8b30e457babac312aa
-RUN mkdir -p /dotnet/src/diagnostics && cd /dotnet/src/diagnostics; \
-    git clone https://github.com/dotnet/diagnostics.git .; \
-    git checkout $DIAGNOSTICS_REF; \
-    cd /dotnet/src/diagnostics && ./build.sh --architecture x64; \
+RUN mkdir -p /dotnet/src/diagnostics && cd /dotnet/src/diagnostics && \
+    git clone https://github.com/dotnet/diagnostics.git . && \
+    git checkout $DIAGNOSTICS_REF && \
+    cd /dotnet/src/diagnostics && ./build.sh --architecture x64 && \
     rm -r .git
 
 # core-sdk
 ARG CORESDK_REF=ed966bdcc5a68ec63074fb6ee579a5506328c2c7
-RUN mkdir -p /dotnet/src/core-sdk && cd /dotnet/src/core-sdk; \
-    git clone https://github.com/dotnet/core-sdk.git .; \
-    git checkout $CORESDK_REF; \
-    cd /dotnet/src/core-sdk && ./build.sh --architecture x64; \
+RUN mkdir -p /dotnet/src/core-sdk && cd /dotnet/src/core-sdk && \
+    git clone https://github.com/dotnet/core-sdk.git . && \
+    git checkout $CORESDK_REF && \
+    cd /dotnet/src/core-sdk && ./build.sh --architecture x64 && \
     rm -r .git
 
 # core-setup
 ARG CORESETUP_REF=32228f2ae5e68394197859608c8c6afb94276481
-RUN mkdir -p /dotnet/src/core-setup && cd /dotnet/src/core-setup; \
-    git clone https://github.com/dotnet/core-setup.git .; \
-    git checkout $CORESETUP_REF; \
+RUN mkdir -p /dotnet/src/core-setup && cd /dotnet/src/core-setup && \
+    git clone https://github.com/dotnet/core-setup.git . && \
+    git checkout $CORESETUP_REF && \
     cd /dotnet/src/core-setup && ./build.sh \
         --restore --build --pack \
         /p:CoreCLROverridePath=/dotnet/src/coreclr/bin/Product/Linux.x64.Checked \
-        /p:CoreFXOverridePath=/dotnet/src/corefx/artifacts/packages/Debug; \
+        /p:CoreFXOverridePath=/dotnet/src/corefx/artifacts/packages/Debug && \
     rm -r .git
 
 # distribution
-RUN mkdir -p /dotnet/dist/bin && mkdir -p /dotnet/dist/packages; \
-    cp -r /dotnet/src/core-sdk/artifacts/bin/redist/Debug/dotnet/* /dotnet/dist/bin; \
-    cp -r /dotnet/src/core-setup/artifacts/obj/linux-x64.Debug/sharedFrameworkPublish/* /dotnet/dist/bin; \
-    cp -r /dotnet/src/core-setup/artifacts/packages/Debug/Shipping/* /dotnet/dist/packages; \
+RUN mkdir -p /dotnet/dist/bin && mkdir -p /dotnet/dist/packages && \
+    cp -r /dotnet/src/core-sdk/artifacts/bin/redist/Debug/dotnet/* /dotnet/dist/bin && \
+    cp -r /dotnet/src/core-setup/artifacts/obj/linux-x64.Debug/sharedFrameworkPublish/* /dotnet/dist/bin && \
+    cp -r /dotnet/src/core-setup/artifacts/packages/Debug/Shipping/* /dotnet/dist/packages && \
     cp -r /dotnet/src/corert/bin/packages/Debug/* /dotnet/dist/packages
 
 ENV PATH="/dotnet/dist/bin:${PATH}"
