@@ -2,7 +2,7 @@ resources:
 - repo: self
 
 variables:
-  dockerHub: DockerHub
+  dockerRegistry: DockerHub
   dockerTag: $(Build.BuildId)
   dockerRepo: kodraus/dotnet-dev
   dockerImage: $(dockerRepo):$(dockerTag)
@@ -34,7 +34,7 @@ stages:
       displayName: Login
       inputs:
         command: login
-        containerRegistry: $(dockerHub)
+        containerRegistry: $(dockerRegistry)
     - task: Docker@2
       displayName: Publish toolchain
       inputs:
@@ -46,4 +46,4 @@ stages:
       displayName: Logout
       inputs:
         command: logout
-        containerRegistry: $(dockerHub)
+        containerRegistry: $(dockerRegistry)
