@@ -72,3 +72,4 @@ cp -r /dotnet/src/core-sdk/artifacts/bin/redist/Debug/dotnet/* /dotnet/dist/bin
 cp -r /dotnet/src/core-setup/artifacts/obj/linux-x64.Debug/sharedFrameworkPublish/* /dotnet/dist/bin
 cp -r /dotnet/src/core-setup/artifacts/packages/Debug/Shipping/* /dotnet/dist/packages
 cp -r /dotnet/src/corert/bin/packages/Debug/* /dotnet/dist/packages
+rm -r /dotnet/src
