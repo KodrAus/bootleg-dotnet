@@ -46,7 +46,7 @@ cd /dotnet/src/coreclr && ./build.sh -x64 -checked
 # build: llilc
 cd /dotnet/src/llvm/build
 rm -r /dotnet/src/llvm/tools/llilc/lib/ObjWriter
-cp /dotnet/src/corert/src/Native/ObjWriter /dotnet/src/llvm/tools/llilc/lib
+cp -r /dotnet/src/corert/src/Native/ObjWriter /dotnet/src/llvm/tools/llilc/lib
 cmake \
     -DCMAKE_C_COMPILER=clang-3.9 \
     -DCMAKE_CXX_COMPILER=clang++-3.9 \
