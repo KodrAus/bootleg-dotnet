@@ -16,6 +16,8 @@ git checkout $COREFX_REF
 mkdir -p /dotnet/src/corert && cd /dotnet/src/corert
 git clone https://github.com/dotnet/corert.git .
 git checkout $CORERT_REF
+rm /dotnet/src/corert/src/Native/ObjWriter/llvm.patch
+cp /dotnet/src/patch/ObjWriter/llvm.patch /dotnet/src/corert/src/Native/ObjWriter
 
 # src: core-sdk
 mkdir -p /dotnet/src/core-sdk && cd /dotnet/src/core-sdk
@@ -32,30 +34,27 @@ mkdir -p /dotnet/src/diagnostics && cd /dotnet/src/diagnostics
 git clone https://github.com/dotnet/diagnostics.git .
 git checkout $DIAGNOSTICS_REF
 
-# src: llilc
-mkdir -p /dotnet/src/llvm && cd /dotnet/src/llvm
-git clone -b MS https://github.com/microsoft/llvm .
-git checkout $MSLLVM_REF
-mkdir build && mkdir -p tools/llilc && cd tools/llilc
-git clone https://github.com/dotnet/llilc .
-git checkout $LLILC_REF
+# src: llvm
+mkdir -p /dotnet/src/llvm-project && cd /dotnet/src/llvm-project
+git clone --single-branch -b release/5.x https://github.com/llvm/llvm-project .
+git checkout $LLVM_REF
+cp -r /dotnet/src/corert/src/Native/ObjWriter /dotnet/src/llvm-project/llvm/tools
+cp -r /dotnet/src/patch/CoreDisTools /dotnet/src/llvm-project/llvm/tools
+git apply /dotnet/src/llvm-project/llvm/tools/ObjWriter/llvm.patch
 
-# build: coreclr
-cd /dotnet/src/coreclr && ./build.sh -x64 -checked
-
-# build: llilc
-cd /dotnet/src/llvm/build
-rm -r /dotnet/src/llvm/tools/llilc/lib/ObjWriter
-cp -r /dotnet/src/corert/src/Native/ObjWriter /dotnet/src/llvm/tools/llilc/lib
+# build: llvm
+mkdir /dotnet/src/llvm-project/llvm/build && cd /dotnet/src/llvm-project/llvm/build
 cmake \
     -DCMAKE_C_COMPILER=clang-3.9 \
     -DCMAKE_CXX_COMPILER=clang++-3.9 \
-    -DWITH_CORECLR=/dotnet/src/coreclr/bin/Product/Linux.x64.Checked \
     -DLLVM_OPTIMIZED_TABLEGEN=ON \
     -DLLVM_INCLUDE_TESTS=0 \
     -DLLVM_TARGETS_TO_BUILD="X86" \
     ..
 make
+
+# build: coreclr
+cd /dotnet/src/coreclr && ./build.sh -x64 -checked
 
 # build: corefx
 cd /dotnet/src/corefx && ./build.sh --arch x64 --warnAsError false
