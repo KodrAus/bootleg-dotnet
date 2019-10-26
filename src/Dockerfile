@@ -9,6 +9,7 @@ ARG CORESDK_REF=ed966bdcc5a68ec63074fb6ee579a5506328c2c7
 ARG CORESETUP_REF=32228f2ae5e68394197859608c8c6afb94276481
 
 # build and runtime dependencies
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get -y install --no-install-recommends \
         git \
         procps \
@@ -31,6 +32,7 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
         libunwind-dev \
         uuid-dev \
         zlib1g-dev \
+        nuget \
     2>&1 && \
     curl -L https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | apt-key add - && \
     apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main' && \

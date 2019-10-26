@@ -16,8 +16,7 @@ git checkout $COREFX_REF
 mkdir -p /dotnet/src/corert && cd /dotnet/src/corert
 git clone https://github.com/dotnet/corert.git .
 git checkout $CORERT_REF
-rm /dotnet/src/corert/src/Native/ObjWriter/llvm.patch
-cp /dotnet/src/patch/ObjWriter/llvm.patch /dotnet/src/corert/src/Native/ObjWriter
+git apply --ignore-space-change --ignore-whitespace /dotnet/src/patch/corert/corert.patch
 
 # src: core-sdk
 mkdir -p /dotnet/src/core-sdk && cd /dotnet/src/core-sdk
@@ -38,9 +37,22 @@ git checkout $DIAGNOSTICS_REF
 mkdir -p /dotnet/src/llvm-project && cd /dotnet/src/llvm-project
 git clone --single-branch -b release/5.x https://github.com/llvm/llvm-project .
 git checkout $LLVM_REF
+git apply --ignore-space-change --ignore-whitespace /dotnet/src/patch/ObjWriter/llvm.patch
 cp -r /dotnet/src/corert/src/Native/ObjWriter /dotnet/src/llvm-project/llvm/tools
 cp -r /dotnet/src/patch/CoreDisTools /dotnet/src/llvm-project/llvm/tools
-git apply /dotnet/src/llvm-project/llvm/tools/ObjWriter/llvm.patch
+
+mkdir -p /dotnet/dist/bin && mkdir -p /dotnet/dist/packages/symbols
+
+# build: coreclr
+cd /dotnet/src/coreclr
+./build.sh -x64 -checked
+cp -r /dotnet/src/coreclr/bin/Product/Linux.x64.Checked/.nuget/pkg/* /dotnet/dist/packages
+cp -r /dotnet/src/coreclr/bin/Product/Linux.x64.Checked/.nuget/symbolpkg/* /dotnet/dist/packages/symbols
+
+# build: corefx
+cd /dotnet/src/corefx && ./build.sh --arch x64 --warnAsError false
+cp -r /dotnet/src/corefx/artifacts/packages/Debug/Shipping/* /dotnet/dist/packages
+cp -r /dotnet/src/corefx/artifacts/packages/Debug/NonShipping/* /dotnet/dist/packages
 
 # build: llvm
 mkdir /dotnet/src/llvm-project/llvm/build && cd /dotnet/src/llvm-project/llvm/build
@@ -52,41 +64,32 @@ cmake \
     -DLLVM_TARGETS_TO_BUILD="X86" \
     ..
 make
-
-# build: coreclr
-cd /dotnet/src/coreclr && ./build.sh -x64 -checked
-
-# build: corefx
-cd /dotnet/src/corefx && ./build.sh --arch x64 --warnAsError false
+cp /dotnet/src/llvm-project/llvm/build/lib/libcoredistools.so /dotnet/src/coreclr/bin/Product/Linux.x64.Checked
+cp /dotnet/src/patch/ObjWriter/Microsoft.DotNet.ObjectWriter.nuspec /dotnet/src/llvm-project/llvm/build/lib
+nuget pack /dotnet/src/llvm-project/llvm/build/lib/Microsoft.DotNet.ObjectWriter.nuspec \
+    -version 1.0.0-dev \
+    -outputdirectory /dotnet/dist/packages
 
 # build: corert
 cd /dotnet/src/corert
 ./build.sh x64 skiptests
 ./buildscripts/build-packages.sh x64
+cp -r /dotnet/src/corert/bin/packages/Debug/* /dotnet/dist/packages
 
 # build: diagnostics
 cd /dotnet/src/diagnostics && ./build.sh --architecture x64
 
 # build: core-sdk
 cd /dotnet/src/core-sdk && ./build.sh --architecture x64
+cp -r /dotnet/src/core-sdk/artifacts/bin/redist/Debug/dotnet/* /dotnet/dist/bin
 
 # build: core-setup
 cd /dotnet/src/core-setup && ./build.sh \
     --restore --build --pack \
     /p:CoreCLROverridePath=/dotnet/src/coreclr/bin/Product/Linux.x64.Checked \
     /p:CoreFXOverridePath=/dotnet/src/corefx/artifacts/packages/Debug
-
-mkdir -p /dotnet/dist/bin && mkdir -p /dotnet/dist/packages
-
-# dist: sdk
-cp -r /dotnet/src/core-sdk/artifacts/bin/redist/Debug/dotnet/* /dotnet/dist/bin
-
-# dist: runtime
 cp -r /dotnet/src/core-setup/artifacts/obj/linux-x64.Debug/sharedFrameworkPublish/* /dotnet/dist/bin
 cp -r /dotnet/src/core-setup/artifacts/packages/Debug/Shipping/* /dotnet/dist/packages
-
-# dist: corert
-cp -r /dotnet/src/corert/bin/packages/Debug/* /dotnet/dist/packages
 
 # cleanup
 rm -r /dotnet/src
