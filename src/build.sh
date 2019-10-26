@@ -81,6 +81,7 @@ cd /dotnet/src/diagnostics && ./build.sh --architecture x64
 
 # build: core-sdk
 cd /dotnet/src/core-sdk && ./build.sh --architecture x64
+rm -r /dotnet/src/core-sdk/artifacts/bin/redist/Debug/dotnet/shared/Microsoft.NETCore.App
 cp -r /dotnet/src/core-sdk/artifacts/bin/redist/Debug/dotnet/* /dotnet/dist/bin
 
 # build: core-setup
