@@ -71,10 +71,10 @@ nuget pack /dotnet/src/llvm-project/llvm/build/lib/Microsoft.DotNet.ObjectWriter
     -outputdirectory /dotnet/dist/packages
 
 # build: corert
-export RyuJITVersion="5.0.0-dev"
-export ObjectWriterVersion="1.0.0-dev"
-export CoreFxVersion="5.0.0-dev"
-export MicrosoftNETCoreNativeVersion="5.0.0-dev"
+export RyuJITVersion="5.0.0-dev*"
+export ObjectWriterVersion="1.0.0-dev*"
+export CoreFxVersion="5.0.0-dev*"
+export MicrosoftNETCoreNativeVersion="5.0.0-dev*"
 cd /dotnet/src/corert
 ./build.sh x64 skiptests
 ./buildscripts/build-packages.sh x64
