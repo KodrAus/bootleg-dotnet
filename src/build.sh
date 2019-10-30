@@ -97,4 +97,6 @@ cp -r /dotnet/src/core-setup/artifacts/obj/linux-x64.Debug/sharedFrameworkPublis
 cp -r /dotnet/src/core-setup/artifacts/packages/Debug/Shipping/* /dotnet/dist/packages
 
 # cleanup
-rm -r /dotnet/src
+if [ "$CLEAN_SRC" == "1" ]; then
+    rm -r /dotnet/src
+fi

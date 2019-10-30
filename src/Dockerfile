@@ -40,6 +40,8 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
         cmake && \
     rm -rf /var/lib/apt/lists/*
 
+ARG CLEAN_SRC=0
+
 COPY build.sh /dotnet/build.sh
 COPY patch /dotnet/src/patch
 RUN /dotnet/build.sh

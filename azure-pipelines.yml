@@ -19,7 +19,7 @@ stages:
     - task: CmdLine@2
       displayName: Build toolchain
       inputs:
-        script: docker build -t $(dockerImage) src
+        script: docker build --build-arg CLEAN_SRC=1 -t $(dockerImage) src
     - task: CmdLine@2
       displayName: Test toolchain
       inputs:
