@@ -47,3 +47,5 @@ COPY build /dotnet/build
 COPY patch /dotnet/src/patch
 
 RUN /dotnet/build/build.sh
+
+ENV CLR_CORELIB=/dotnet/src/platform/coreclr/bin/Product/Linux.x64.Debug/System.Private.CoreLib.dll
