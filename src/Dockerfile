@@ -5,8 +5,7 @@ ARG LLVM_REF=6a075b6de4cafebec9ca1ff9eec7229a617c93f6
 ARG COREFX_REF=8d87e5cae96c5fb25ac21442bb56c337029d77a4
 ARG CORERT_REF=06c9c38fece653e1c8b1628908971edab183433c
 ARG DIAGNOSTICS_REF=95e92dbc744e03995a2d2f8b30e457babac312aa
-ARG CORESDK_REF=ed966bdcc5a68ec63074fb6ee579a5506328c2c7
-ARG CORESETUP_REF=32228f2ae5e68394197859608c8c6afb94276481
+ARG ROSLYN_REF=7d97db435f1d30285efdc8f77e1d573ea8b5075a
 
 # build and runtime dependencies
 ENV DEBIAN_FRONTEND=noninteractive
@@ -33,6 +32,8 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
         uuid-dev \
         zlib1g-dev \
         nuget \
+        nano \
+        tree \
     2>&1 && \
     curl -L https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | apt-key add - && \
     apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main' && \
@@ -42,8 +43,7 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
 
 ARG CLEAN_SRC=0
 
-COPY build.sh /dotnet/build.sh
+COPY build /dotnet/build
 COPY patch /dotnet/src/patch
-RUN /dotnet/build.sh
-ENV PATH="/dotnet/dist/bin:${PATH}"
-COPY NuGet.Config /root/.nuget/NuGet/NuGet.Config
+
+RUN /dotnet/build/build.sh
