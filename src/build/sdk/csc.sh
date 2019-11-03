@@ -224,3 +224,5 @@ clang-3.9 /dotnet/src/sdk/csc/csc.o -o /dotnet/src/sdk/csc/csc \
   -lz \
   -lgssapi_krb5 \
   -lrt
+
+cp /dotnet/src/sdk/csc/csc /dotnet/dist

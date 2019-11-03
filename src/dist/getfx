@@ -8,4 +8,4 @@ if [[ -z "${1:-}" ]]; then
 fi
 
 fxLib=$1
-cp /dotnet/src/platform/corefx/artifacts/bin/$fxLib/netcoreapp-Unix-Debug/$fxLib.dll .
+cp /dotnet/dist/fx/$fxLib .

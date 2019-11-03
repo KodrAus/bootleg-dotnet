@@ -1,5 +1,0 @@
-#!/bin/bash
-
-set -o errexit -o nounset
-
-/dotnet/src/platform/coreclr/bin/Product/Linux.x64.Debug/corerun $@

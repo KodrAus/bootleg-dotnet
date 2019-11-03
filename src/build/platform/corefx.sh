@@ -12,3 +12,4 @@ cd /dotnet/src/platform/corefx && ./build.sh \
 
 cp -r /dotnet/src/platform/corefx/artifacts/packages/Debug/Shipping/* /dotnet/dist/packages
 cp -r /dotnet/src/platform/corefx/artifacts/packages/Debug/NonShipping/* /dotnet/dist/packages
+cp -r /dotnet/src/platform/corefx/artifacts/bin/runtime/netcoreapp-Linux-Debug-x64 /dotnet/dist/fx

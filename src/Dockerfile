@@ -43,9 +43,12 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
 
 ARG CLEAN_SRC=0
 
+COPY dist /dotnet/dist
+
 COPY build /dotnet/build
 COPY patch /dotnet/src/patch
 
 RUN /dotnet/build/build.sh
 
-ENV CLR_CORELIB=/dotnet/src/platform/coreclr/bin/Product/Linux.x64.Debug/System.Private.CoreLib.dll
+ENV PATH="/dotnet/dist:${PATH}"
+ENV CLR_CORELIB=/dotnet/dist/clr/System.Private.CoreLib.dll

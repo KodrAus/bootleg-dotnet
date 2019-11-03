@@ -13,3 +13,4 @@ cd /dotnet/src/platform/corert
 ./buildscripts/build-packages.sh x64
 
 cp -r /dotnet/src/platform/corert/bin/packages/Debug/* /dotnet/dist/packages
+cp -r /dotnet/src/platform/corert/bin/Linux.x64.Debug /dotnet/dist/rt

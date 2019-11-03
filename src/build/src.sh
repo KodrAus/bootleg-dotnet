@@ -37,4 +37,3 @@ git clone https://github.com/dotnet/roslyn.git .
 git checkout $ROSLYN_REF
 
 mkdir -p /dotnet/dist/packages/symbols
-mkdir -p /dotnet/dist/tools

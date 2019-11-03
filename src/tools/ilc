@@ -1,5 +1,0 @@
-#!/bin/bash
-
-set -o errexit -o nounset
-
-/dotnet/src/platform/corert/bin/Linux.x64.Debug/tools/ilc $@
