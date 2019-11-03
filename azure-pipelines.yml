@@ -20,10 +20,6 @@ stages:
       displayName: Build toolchain
       inputs:
         script: docker build --build-arg CLEAN_SRC=1 -t $(dockerImage) src
-    - task: CmdLine@2
-      displayName: Test toolchain
-      inputs:
-        script: docker run -v $(pwd)/tests:/tests $(dockerImage) /bin/bash -c 'cd /tests/ConsoleApp && dotnet run'
   - job: Publish
     displayName: Publish image
     dependsOn: Build
