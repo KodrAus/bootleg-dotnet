@@ -17,7 +17,4 @@ $SCRIPT_ROOT/sdk/roslyn.sh
 $SCRIPT_ROOT/sdk/ilc.sh
 $SCRIPT_ROOT/sdk/csc.sh
 
-# cleanup
-if [ "$CLEAN_SRC" == "1" ]; then
-    rm -r /dotnet/src
-fi
+$SCRIPT_ROOT/cleanup.sh

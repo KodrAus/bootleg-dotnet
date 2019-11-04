@@ -48,7 +48,22 @@ COPY dist /dotnet/dist
 COPY build /dotnet/build
 COPY patch /dotnet/src/patch
 
-RUN /dotnet/build/build.sh
+# RUN /dotnet/build/build.sh
+
+RUN /dotnet/build/src.sh
+
+RUN /dotnet/build/platform/llvm.sh
+RUN /dotnet/build/platform/coreclr.sh
+RUN /dotnet/build/platform/corefx.sh
+RUN /dotnet/build/platform/corert.sh
+
+RUN /dotnet/build/sdk/diagnostics.sh
+RUN /dotnet/build/sdk/roslyn.sh
+
+RUN /dotnet/build/sdk/ilc.sh
+RUN /dotnet/build/sdk/csc.sh
+
+RUN /dotnet/build/cleanup.sh
 
 ENV PATH="/dotnet/dist:${PATH}"
 ENV CLR_CORELIB=/dotnet/dist/clr/System.Private.CoreLib.dll
