@@ -15,6 +15,7 @@ $SCRIPT_ROOT/sdk/diagnostics.sh
 $SCRIPT_ROOT/sdk/roslyn.sh
 
 $SCRIPT_ROOT/sdk/csc.sh
+$SCRIPT_ROOT/sdk/ilc.sh
 
 # cleanup
 if [ "$CLEAN_SRC" == "1" ]; then
