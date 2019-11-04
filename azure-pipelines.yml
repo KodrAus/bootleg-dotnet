@@ -4,7 +4,7 @@ resources:
 variables:
   dockerRegistry: DockerHub
   dockerTag: $(Build.BuildId)
-  dockerRepo: kodraus/dotnet-dev
+  dockerRepo: kodraus/bootleg-dotnet
   dockerImage: $(dockerRepo):$(dockerTag)
 
 stages:
