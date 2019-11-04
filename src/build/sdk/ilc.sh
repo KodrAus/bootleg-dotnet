@@ -237,5 +237,9 @@ clang-3.9 /dotnet/src/sdk/ilc/ilc.o -o /dotnet/src/sdk/ilc/ilc \
 
 cp /dotnet/src/sdk/ilc/libLLVM.so /usr/lib
 cp /dotnet/src/sdk/ilc/libobjwriter.so /usr/lib
+cp /dotnet/src/sdk/ilc/jitinterface.so /usr/lib
+cp /dotnet/src/sdk/ilc/libclrjitilc.so /usr/lib
+cp /dotnet/src/sdk/ilc/libclrjit.so /usr/lib
+cp /dotnet/src/sdk/ilc/libsos.so /usr/lib
 
 cp /dotnet/src/sdk/ilc/ilc /dotnet/dist
