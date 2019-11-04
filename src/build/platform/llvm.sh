@@ -15,4 +15,6 @@ make
 cp /dotnet/src/patch/corert/ObjWriter/Microsoft.DotNet.ObjectWriter.nuspec /dotnet/src/platform/llvm-project/llvm/build/lib
 nuget pack /dotnet/src/platform/llvm-project/llvm/build/lib/Microsoft.DotNet.ObjectWriter.nuspec \
     -version 1.0.0-dev \
-    -outputdirectory /dotnet/dist/packages
+    -outputdirectory /dotnet/src/packages
+
+cp /dotnet/src/platform/llvm-project/llvm/build/lib/libcoredistools.so /usr/lib

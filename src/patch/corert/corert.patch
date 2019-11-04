@@ -6,7 +6,7 @@ index ce3c339ea..543c25ab5 100644
  <configuration>
    <packageSources>
      <clear/>
-+    <add key="dev" value="/dotnet/dist/packages" />
++    <add key="dev" value="/dotnet/src/packages" />
      <add key="dotnetfeed dotnet-core" value="https://dotnetfeed.blob.core.windows.net/dotnet-core/index.json" />
      <add key="dotnetfeed dotnet-coreclr" value="https://dotnetfeed.blob.core.windows.net/dotnet-coreclr/index.json" />
      <add key="myget.org dotnet-buildtools" value="https://dotnet.myget.org/F/dotnet-buildtools/api/v3/index.json" />

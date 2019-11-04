@@ -14,8 +14,8 @@ $SCRIPT_ROOT/platform/corert.sh
 $SCRIPT_ROOT/sdk/diagnostics.sh
 $SCRIPT_ROOT/sdk/roslyn.sh
 
-$SCRIPT_ROOT/sdk/csc.sh
 $SCRIPT_ROOT/sdk/ilc.sh
+$SCRIPT_ROOT/sdk/csc.sh
 
 # cleanup
 if [ "$CLEAN_SRC" == "1" ]; then
