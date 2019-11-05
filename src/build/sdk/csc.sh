@@ -201,7 +201,7 @@ ilc /dotnet/src/sdk/csc/csc.dll -o:/dotnet/src/sdk/csc/csc.o \
   --rootallapplicationassemblies \
   --scanreflection \
   --singlethreaded \
-  --removefeature:CurlHandler > /dev/null 2>&1
+  --removefeature:CurlHandler
 
 clang-3.9 /dotnet/src/sdk/csc/csc.o -o /dotnet/src/sdk/csc/csc \
   /dotnet/dist/rt/sdk/libbootstrapper.a \

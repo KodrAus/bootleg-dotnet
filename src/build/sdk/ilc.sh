@@ -211,7 +211,7 @@ ilc /dotnet/src/sdk/ilc/ilc.dll -o:/dotnet/src/sdk/ilc/ilc.o \
   --rootallapplicationassemblies \
   --scanreflection \
   --singlethreaded \
-  --removefeature:CurlHandler > /dev/null 2>&1
+  --removefeature:CurlHandler
 
 clang-3.9 /dotnet/src/sdk/ilc/ilc.o -o /dotnet/src/sdk/ilc/ilc \
   /dotnet/dist/rt/sdk/libbootstrapper.a \

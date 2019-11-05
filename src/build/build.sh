@@ -14,7 +14,8 @@ $SCRIPT_ROOT/platform/corert.sh
 $SCRIPT_ROOT/sdk/diagnostics.sh
 $SCRIPT_ROOT/sdk/roslyn.sh
 
-$SCRIPT_ROOT/sdk/ilc.sh
-$SCRIPT_ROOT/sdk/csc.sh
+# Seems like ilc likes to segfault when there's no tty
+0<&- script -qefc "$SCRIPT_ROOT/sdk/ilc.sh" /dev/null | cat
+0<&- script -qefc "$SCRIPT_ROOT/sdk/csc.sh" /dev/null | cat
 
 $SCRIPT_ROOT/cleanup.sh
