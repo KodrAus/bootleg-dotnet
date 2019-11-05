@@ -199,7 +199,6 @@ ilc /dotnet/src/sdk/ilc/ilc.dll -o:/dotnet/src/sdk/ilc/ilc.o \
   -r:/dotnet/dist/rt/sdk/System.Private.StackTraceMetadata.Experimental.dll \
   -r:/dotnet/dist/rt/sdk/System.Private.TypeLoader.dll \
   -r:/dotnet/dist/rt/sdk/System.Private.TypeLoader.Experimental.dll \
-  --verbose \
   -g \
   --initassembly:System.Private.CoreLib \
   --initassembly:System.Private.DeveloperExperience.Console \
@@ -212,7 +211,7 @@ ilc /dotnet/src/sdk/ilc/ilc.dll -o:/dotnet/src/sdk/ilc/ilc.o \
   --rootallapplicationassemblies \
   --scanreflection \
   --singlethreaded \
-  --removefeature:CurlHandler
+  --removefeature:CurlHandler > /dev/null 2>&1
 
 clang-3.9 /dotnet/src/sdk/ilc/ilc.o -o /dotnet/src/sdk/ilc/ilc \
   /dotnet/dist/rt/sdk/libbootstrapper.a \
