@@ -15,7 +15,10 @@ $SCRIPT_ROOT/sdk/diagnostics.sh
 $SCRIPT_ROOT/sdk/roslyn.sh
 
 # Seems like ilc likes to segfault when there's no tty
+echo "Compiling ilc with ilc..."
 0<&- script -qefc "$SCRIPT_ROOT/sdk/ilc.sh" /dev/null | cat
+
+echo "Compiling csc with ilc..."
 0<&- script -qefc "$SCRIPT_ROOT/sdk/csc.sh" /dev/null | cat
 
 $SCRIPT_ROOT/cleanup.sh
