@@ -2,7 +2,7 @@
 
 set -o errexit -o nounset
 
-export PATH="/dotnet/dist:$PATH"
+export PATH="/dotnet/src/platform/corert/bin/Linux.x64.Debug/tools:$PATH"
 
 mkdir -p /dotnet/src/sdk/csc
 cp -r /dotnet/src/sdk/roslyn/artifacts/bin/csc/Debug/netcoreapp2.1/* /dotnet/src/sdk/csc
