@@ -18,3 +18,4 @@ nuget pack /dotnet/src/platform/llvm-project/llvm/build/lib/Microsoft.DotNet.Obj
     -outputdirectory /dotnet/src/packages
 
 cp /dotnet/src/platform/llvm-project/llvm/build/lib/libcoredistools.so /usr/lib
+cp /dotnet/src/platform/llvm-project/llvm/build/lib/libobjwriter.so /usr/lib

@@ -15,3 +15,7 @@ cd /dotnet/src/platform/corert
 cp -r /dotnet/src/platform/corert/bin/packages/Debug/* /dotnet/src/packages
 
 cp -r /dotnet/src/platform/corert/bin/Linux.x64.Debug /dotnet/dist/rt
+
+cp /dotnet/src/platform/corert/bin/Linux.x64.Debu/tools/libLLVM.so /usr/lib
+cp /dotnet/src/platform/corert/bin/Linux.x64.Debu/tools/libclrjit.so /usr/lib
+cp /dotnet/src/platform/corert/bin/Linux.x64.Debu/tools/libclrjitilc.so /usr/lib
