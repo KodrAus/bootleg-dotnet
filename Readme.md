@@ -23,7 +23,7 @@ Other sources include:
 From the repository root, run:
 
 ```shell
-$ docker build -t dotnet-dev:latest src
+$ docker build -t bootleg-dotnet:latest src
 ```
 
 and be prepared to wait a _long_ time! The build is quite intensive, so if you're on Windows or OSX you might need to adjust your Docker resource limits. The container is also _really big_.
