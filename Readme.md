@@ -1,56 +1,22 @@
-# A local `dotnet` development environment
+# Bootleg .NET
 
 [![Build Status](https://dev.azure.com/kodraus/dotnet-dev/_apis/build/status/KodrAus.dotnet-dev?branchName=master)](https://dev.azure.com/kodraus/dotnet-dev/_build/latest?definitionId=3&branchName=master)
 [![Docker Hub](https://img.shields.io/badge/docker-kodraus%2Fdotnet--dev-blue)](https://hub.docker.com/r/kodraus/dotnet-dev)
 
-This repository contains a `Dockerfile` that installs a `dotnet` toolchain. The toolchain uses local builds for the runtime and libraries, and a published build for the SDK. The goal is to have a consistent environment that can be used to demonstrate features and functions of .NET using _debug builds_ and sources. It also gives you a sense of how the various components come together to make up the `dotnet` toolchain.
+This repository contains a `Dockerfile` that puts together a local debug build of some of the fundamental pieces of a `dotnet` toolchain:
 
-## Source repositories
+- `csc`: A C# to IL compiler from [`roslyn`](https://github.com/dotnet/roslyn).
+- `ilc`: An IL to native code compiler from [`corert`](https://github.com/dotnet/corert).
+- `corerun`: An entry point to the runtime from [`coreclr`](https://github.com/dotnet/coreclr).
+- `ildasm`: A tool for examining the IL in managed DLLs from [`coreclr`](https://github.com/dotnet/coreclr).
+- `crossgen`: An IL to Ready-to-run DLL compiler from [`coreclr`](https://github.com/dotnet/coreclr) (based on [`corert`](https://github.com/dotnet/corert)).
+- `r2rdump`: A tool for examining the native code in Ready-to-run DLLs from [`coreclr`](https://github.com/dotnet/coreclr).
 
-The toolchain is built using a number of repositories in the [`dotnet`](https://github.com/dotnet) organization on GitHub.
+Other sources include:
 
-## [`coreclr`](https://github.com/dotnet/coreclr)
-### `/dotnet/src/coreclr`
-
-The .NET Core runtime. This is built in _checked_ mode so JIT internals are more accessible.
-
-## [`corefx`](https://github.com/dotnet/corefx)
-### `/dotnet/src/corefx`
-
-The .NET standard libraries. These are built in _debug_ mode with symbols.
-
-## [`corert`](https://github.com/dotnet/corert)
-### `/dotnet/src/corert`
-
-The ahead-of-time optimized compiler toolchain. This is built in _debug_ mode.
-
-## [`llilc`](https://github.com/dotnet/llilc)
-### `/dotnet/src/llvm`
-
-An IL compiler based on LLVM with tools for producing and disassembling native objects.
-
-## [`diagnostics`](https://github.com/dotnet/diagnostics)
-### `/dotnet/src/diagnostics`
-
-Tools for debugging .NET Core apps using LLDB.
-
-## [`core-sdk`](https://github.com/dotnet/core-sdk)
-### `/dotnet/src/core-sdk`
-
-Aggregates an SDK from previously published sources.
-
-## [`core-setup`](https://github.com/dotnet/core-setup)
-### `/dotnet/src/core-setup`
-
-Aggregates a runtime and libraries for a given platform.
-
-## Layout
-
-The toolchain is written to:
-
-- `/dotnet/dist`
-  - `/bin`: The SDK itself
-  - `/packages`: Local package feed for the runtime and tools
+- [`corefx`](https://github.com/dotnet/corefx) for build-time core libraries.
+- [`llilc`](https://github.com/dotnet/llilc) for LLVM dependencies used by `ilc` and `crossgen`.
+- [`diagnostics`](https://github.com/dotnet/diagnostics) for debugging managed code with `lldb`.
 
 ## Building it yourself
 
@@ -60,4 +26,4 @@ From the repository root, run:
 $ docker build -t dotnet-dev:latest src
 ```
 
-and be prepared to wait a _long_ time! The build is quite intensive, so if you're on Windows or OSX you might need to adjust your Docker resource limits.
+and be prepared to wait a _long_ time! The build is quite intensive, so if you're on Windows or OSX you might need to adjust your Docker resource limits. The container is also _really big_.
