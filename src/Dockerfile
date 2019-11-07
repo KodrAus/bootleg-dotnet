@@ -57,7 +57,6 @@ RUN /dotnet/build/build.sh
 # RUN /dotnet/build/platform/corert.sh
 # RUN /dotnet/build/sdk/diagnostics.sh
 # RUN /dotnet/build/sdk/roslyn.sh
-# RUN 0<&- script -qefc "/dotnet/build/sdk/ilc.sh" /dev/null | cat
 # RUN 0<&- script -qefc "/dotnet/build/sdk/csc.sh" /dev/null | cat
 # RUN /dotnet/build/cleanup.sh
 

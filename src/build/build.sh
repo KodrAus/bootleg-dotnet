@@ -14,10 +14,7 @@ $SCRIPT_ROOT/platform/corert.sh
 $SCRIPT_ROOT/sdk/diagnostics.sh
 $SCRIPT_ROOT/sdk/roslyn.sh
 
-# Seems like ilc likes to segfault when there's no tty
-echo "Compiling ilc with ilc..."
-0<&- script -qefc "$SCRIPT_ROOT/sdk/ilc.sh" /dev/null | cat
-
+# Seems like ilc (probably actually objectwriter) likes to segfault when there's no tty?
 echo "Compiling csc with ilc..."
 0<&- script -qefc "$SCRIPT_ROOT/sdk/csc.sh" /dev/null | cat
 

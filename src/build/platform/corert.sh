@@ -14,7 +14,4 @@ cd /dotnet/src/platform/corert
 
 cp -r /dotnet/src/platform/corert/bin/packages/Debug/* /dotnet/src/packages
 
-mkdir -p /dotnet/dist/rt
-cp -r /dotnet/src/platform/corert/bin/Linux.x64.Debug/framework /dotnet/dist/rt/inc
-cp -r /dotnet/src/platform/corert/bin/Linux.x64.Debug/framework /dotnet/dist/rt/framework
-cp -r /dotnet/src/platform/corert/bin/Linux.x64.Debug/sdk /dotnet/dist/rt/sdk
+cp -r /dotnet/src/platform/corert/bin/Linux.x64.Debug /dotnet/dist/rt
