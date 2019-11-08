@@ -18,6 +18,14 @@ Other sources include:
 - [`llilc`](https://github.com/dotnet/llilc) for LLVM dependencies used by `ilc` and `crossgen`.
 - [`diagnostics`](https://github.com/dotnet/diagnostics) for debugging managed code with `lldb`.
 
+Some tools you might be used to working with are notably absent:
+
+- ~~`dotnet`~~
+- ~~`msbuild`~~
+- ~~`nuget`~~
+
+That seems pretty limiting... but there's still plenty of capability packed into the tools that are there! For an example of compiling and running a simple C# app in various forms see [this smoke-test build script](https://github.com/KodrAus/bootleg-dotnet/blob/master/tests/App/build.sh).
+
 ## What's it all for?
 
 `dotnet` is a deep stack that's been evolving over 20+ years. It's easy to call `dotnet run` or `dotnet publish -r linux-x64` without ever knowing what's happening below the surface. By digging deeper we can get an idea of what `dotnet` is built on, where it's come from, and where it's going.
