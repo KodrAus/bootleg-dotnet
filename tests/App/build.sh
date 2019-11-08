@@ -42,7 +42,7 @@ echo "Running..."
 corerun App.dll
 
 echo "Building with ilc..."
-ilc App.dll -out:App.o \
+ilc App.dll -o:App.o \
   -r:/dotnet/dist/rt/framework/Microsoft.CSharp.dll \
   -r:/dotnet/dist/rt/framework/Microsoft.VisualBasic.Core.dll \
   -r:/dotnet/dist/rt/framework/Microsoft.VisualBasic.dll \
