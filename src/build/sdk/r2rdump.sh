@@ -8,6 +8,7 @@ mkdir -p /dotnet/src/sdk/r2rdump
 cp /dotnet/src/platform/coreclr/bin/Product/Linux.x64.Debug/R2RDump.dll /dotnet/src/sdk/r2rdump
 cp /dotnet/dist/clr/crossgen2/System.CommandLine.dll /dotnet/src/sdk/r2rdump
 
+echo "Building r2rdump"
 ilc /dotnet/src/sdk/r2rdump/R2RDump.dll -o:/dotnet/src/sdk/r2rdump/r2rdump.o \
   -r:/dotnet/src/sdk/r2rdump/System.CommandLine.dll \
   -r:/dotnet/dist/rt/framework/Microsoft.CSharp.dll \
@@ -203,6 +204,7 @@ ilc /dotnet/src/sdk/r2rdump/R2RDump.dll -o:/dotnet/src/sdk/r2rdump/r2rdump.o \
   --singlethreaded \
   --removefeature:CurlHandler
 
+echo "Linking r2rdump"
 clang-3.9 /dotnet/src/sdk/r2rdump/r2rdump.o -o /dotnet/src/sdk/r2rdump/r2rdump \
   /dotnet/dist/rt/sdk/libbootstrapper.a \
   /dotnet/dist/rt/sdk/libRuntime.a \

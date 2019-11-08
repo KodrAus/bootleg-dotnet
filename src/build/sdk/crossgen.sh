@@ -7,6 +7,7 @@ export PATH="/dotnet/src/platform/corert/bin/Linux.x64.Debug/tools:$PATH"
 mkdir -p /dotnet/src/sdk/crossgen
 cp -r /dotnet/src/platform/coreclr/bin/Product/Linux.x64.Debug/crossgen2/* /dotnet/src/sdk/crossgen
 
+echo "Building crossgen"
 ilc /dotnet/src/sdk/crossgen/crossgen2.dll -o:/dotnet/src/sdk/crossgen/crossgen.o \
   -r:/dotnet/src/sdk/crossgen/ILCompiler.DependencyAnalysisFramework.dll \
   -r:/dotnet/src/sdk/crossgen/ILCompiler.ReadyToRun.dll \
@@ -206,6 +207,7 @@ ilc /dotnet/src/sdk/crossgen/crossgen2.dll -o:/dotnet/src/sdk/crossgen/crossgen.
   --singlethreaded \
   --removefeature:CurlHandler
 
+echo "Linking crossgen"
 clang-3.9 /dotnet/src/sdk/crossgen/crossgen.o -o /dotnet/src/sdk/crossgen/crossgen \
   /dotnet/dist/rt/sdk/libbootstrapper.a \
   /dotnet/dist/rt/sdk/libRuntime.a \

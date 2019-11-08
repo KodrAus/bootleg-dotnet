@@ -7,6 +7,7 @@ export PATH="/dotnet/src/platform/corert/bin/Linux.x64.Debug/tools:$PATH"
 mkdir -p /dotnet/src/sdk/csc
 cp -r /dotnet/src/sdk/roslyn/artifacts/bin/csc/Debug/netcoreapp2.1/* /dotnet/src/sdk/csc
 
+echo "Building csc"
 ilc /dotnet/src/sdk/csc/csc.dll -o:/dotnet/src/sdk/csc/csc.o \
   -r:/dotnet/src/sdk/csc/Microsoft.CodeAnalysis.dll \
   -r:/dotnet/src/sdk/csc/Microsoft.CodeAnalysis.CSharp.dll \
@@ -203,6 +204,7 @@ ilc /dotnet/src/sdk/csc/csc.dll -o:/dotnet/src/sdk/csc/csc.o \
   --singlethreaded \
   --removefeature:CurlHandler
 
+echo "Linking csc"
 clang-3.9 /dotnet/src/sdk/csc/csc.o -o /dotnet/src/sdk/csc/csc \
   /dotnet/dist/rt/sdk/libbootstrapper.a \
   /dotnet/dist/rt/sdk/libRuntime.a \
