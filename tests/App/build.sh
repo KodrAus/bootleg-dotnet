@@ -2,8 +2,6 @@
 
 set -o errexit -o nounset
 
-cp /dotnet/dist/rt/tools/jitinterface.so /usr/lib
-
 echo "Getting fx libraries..."
 getfx System.Console.dll
 getfx System.Diagnostics.Debug.dll

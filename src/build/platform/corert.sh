@@ -19,3 +19,4 @@ cp -r /dotnet/src/platform/corert/bin/Linux.x64.Debug /dotnet/dist/rt
 cp /dotnet/src/platform/corert/bin/Linux.x64.Debug/tools/libLLVM.so /usr/lib
 cp /dotnet/src/platform/corert/bin/Linux.x64.Debug/tools/libclrjit.so /usr/lib
 cp /dotnet/src/platform/corert/bin/Linux.x64.Debug/tools/libclrjitilc.so /usr/lib
+cp /dotnet/src/platform/corert/bin/Linux.x64.Debug/tools/jitinterface.so /usr/lib
