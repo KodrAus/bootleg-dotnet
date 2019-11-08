@@ -248,7 +248,6 @@ clang-3.9 App.o -o App \
   /dotnet/dist/rt/framework/System.IO.Compression.Native.a \
   /dotnet/dist/rt/framework/System.Net.Security.Native.a \
   /dotnet/dist/rt/framework/System.Security.Cryptography.Native.OpenSsl.a \
-  -g \
   -Wl,--as-needed \
   -pthread \
   -lstdc++ \
