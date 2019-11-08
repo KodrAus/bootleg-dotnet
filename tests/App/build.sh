@@ -222,18 +222,14 @@ ilc App.dll -o:App.o \
   -r:/dotnet/dist/rt/sdk/System.Private.StackTraceMetadata.Experimental.dll \
   -r:/dotnet/dist/rt/sdk/System.Private.TypeLoader.dll \
   -r:/dotnet/dist/rt/sdk/System.Private.TypeLoader.Experimental.dll \
-  -g \
+  --Os \
   --initassembly:System.Private.CoreLib \
   --initassembly:System.Private.DeveloperExperience.Console \
   --initassembly:System.Private.StackTraceMetadata \
   --initassembly:System.Private.TypeLoader \
   --initassembly:System.Private.Reflection.Execution \
   --initassembly:System.Private.Interop \
-  --completetypemetadata \
-  --stacktracedata \
-  --rootallapplicationassemblies \
-  --scanreflection \
-  --singlethreaded \
+  --disablereflection \
   --removefeature:CurlHandler
 
 echo "Linking with clang..."
