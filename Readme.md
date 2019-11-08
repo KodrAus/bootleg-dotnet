@@ -1,7 +1,7 @@
 # Bootleg .NET
 
-[![Build Status](https://dev.azure.com/kodraus/dotnet-dev/_apis/build/status/KodrAus.dotnet-dev?branchName=master)](https://dev.azure.com/kodraus/dotnet-dev/_build/latest?definitionId=3&branchName=master)
-[![Docker Hub](https://img.shields.io/badge/docker-kodraus%2Fdotnet--dev-blue)](https://hub.docker.com/r/kodraus/dotnet-dev)
+[![Build Status](https://dev.azure.com/kodraus/bootleg-dotnet/_apis/build/status/KodrAus.bootleg-dotnet?branchName=master)](https://dev.azure.com/kodraus/bootleg-dotnet/_build/latest?definitionId=3&branchName=master)
+[![Docker Hub](https://img.shields.io/badge/docker-kodraus%2Fbootleg--dotnet-blue)](https://hub.docker.com/r/kodraus/bootleg-dotnet)
 
 This repository contains a `Dockerfile` that puts together a local debug build of some of the fundamental pieces of a `dotnet` toolchain:
 
