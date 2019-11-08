@@ -18,6 +18,10 @@ Other sources include:
 - [`llilc`](https://github.com/dotnet/llilc) for LLVM dependencies used by `ilc` and `crossgen`.
 - [`diagnostics`](https://github.com/dotnet/diagnostics) for debugging managed code with `lldb`.
 
+## What's it all for?
+
+`dotnet` is a deep stack that's been evolving over 20+ years. It's easy to call `dotnet run` or `dotnet publish -r linux-x64` without ever knowing what's happening below the surface. By digging deeper we can get an idea of what `dotnet` is built on, where it's come from, and where it's going.
+
 ## Building it yourself
 
 From the repository root, run:
