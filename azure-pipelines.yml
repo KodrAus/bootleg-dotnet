@@ -4,7 +4,7 @@ resources:
 variables:
   dockerRegistry: DockerHub
   dockerTag: $(Build.BuildId)
-  dockerRepo: kodraus/dotnet-dev
+  dockerRepo: kodraus/bootleg-dotnet
   dockerImage: $(dockerRepo):$(dockerTag)
 
 stages:
@@ -19,11 +19,11 @@ stages:
     - task: CmdLine@2
       displayName: Build toolchain
       inputs:
-        script: docker build -t $(dockerImage) src
+        script: docker build --build-arg CLEAN_SRC=1 -t $(dockerImage) src
     - task: CmdLine@2
       displayName: Test toolchain
       inputs:
-        script: docker run -v $(pwd)/tests:/tests $(dockerImage) /bin/bash -c 'cd /tests/ConsoleApp && dotnet run'
+        script: docker run -v $(pwd)/tests:/tests $(dockerImage) /bin/bash -c 'cd /tests/App && ./build.sh'
   - job: Publish
     displayName: Publish image
     dependsOn: Build

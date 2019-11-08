@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -o errexit -o nounset
+
+if [[ -z "${1:-}" ]]; then
+    echo "usage: $0 <lib>"
+    exit 0
+fi
+
+fxLib=$1
+cp /dotnet/dist/fx/$fxLib .
