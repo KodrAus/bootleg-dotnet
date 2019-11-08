@@ -2,7 +2,9 @@
 
 set -o errexit -o nounset
 
-# Get a few framework libs we need to build and run
+cp /dotnet/dist/rt/tools/jitinterface.so /usr/lib
+
+echo "Getting fx libraries..."
 getfx System.Console.dll
 getfx System.Diagnostics.Debug.dll
 getfx System.Runtime.Extensions.dll
@@ -11,32 +13,35 @@ getfx System.Text.Encoding.Extensions.dll
 getfx System.Threading.dll
 getfx System.Native.so
 
-# Build our C# app using csc
+echo "Building with csc..."
 csc -recurse:*.cs -out:App.dll \
   -r:$CLR_CORELIB \
   -r:System.Console.dll \
   -r:System.Runtime.dll
 
-# Examine its IL using ildasm
+echo "Dumping IL..."
 ildasm App.dll
 
-# Run our compiled app using corerun
+echo "Running..."
 corerun App.dll
 
-# Pre-JIT our app using crossgen
+echo "Pre-JIT'ing..."
 mv App.dll App.il.dll
 crossgen App.il.dll -o:App.dll \
   -r:$CLR_CORELIB \
   -r:System.Console.dll \
   -r:System.Runtime.dll
 
-# Examine its native code using r2rdump
+echo "Dumping IL..."
+ildasm App.dll
+
+echo "Dumping Pre-JIT'ed asm..."
 r2rdump -i:App.dll -d
 
-# Run our compiled app again
+echo "Running..."
 corerun App.dll
 
-# Ahead-of-time compile our app using ilc
+echo "Building with ilc..."
 ilc App.dll -out:App.o \
   -r:/dotnet/dist/rt/framework/Microsoft.CSharp.dll \
   -r:/dotnet/dist/rt/framework/Microsoft.VisualBasic.Core.dll \
@@ -231,7 +236,7 @@ ilc App.dll -out:App.o \
   --singlethreaded \
   --removefeature:CurlHandler
 
-# Link it up using clang
+echo "Linking with clang..."
 clang-3.9 App.o -o App \
   /dotnet/dist/rt/sdk/libbootstrapper.a \
   /dotnet/dist/rt/sdk/libRuntime.a \
@@ -253,5 +258,5 @@ clang-3.9 App.o -o App \
   -lgssapi_krb5 \
   -lrt
 
-# Run our app without corerun
+echo "Running..."
 ./App
