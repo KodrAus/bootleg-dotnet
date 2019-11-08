@@ -23,7 +23,7 @@ echo "Dumping IL..."
 ildasm App.dll
 
 echo "Running..."
-COMPlus_JitDisasm="App.*" corerun App.dll
+COMPlus_JitDisasm="*" corerun App.dll
 
 echo "Pre-JIT'ing..."
 mv App.dll App.il.dll
