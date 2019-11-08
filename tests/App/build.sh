@@ -19,6 +19,8 @@ csc -recurse:*.cs -out:App.dll \
   -r:System.Console.dll \
   -r:System.Runtime.dll
 
+du-sh App.dll
+
 echo "Dumping IL..."
 ildasm App.dll
 
@@ -31,6 +33,8 @@ crossgen App.il.dll -o:App.dll \
   -r:$CLR_CORELIB \
   -r:System.Console.dll \
   -r:System.Runtime.dll
+
+du-sh App.dll
 
 echo "Dumping IL..."
 ildasm App.dll
@@ -253,6 +257,8 @@ clang-3.9 App.o -o App \
   -lz \
   -lgssapi_krb5 \
   -lrt
+
+du-sh App
 
 echo "Running..."
 ./App
