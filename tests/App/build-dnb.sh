@@ -7,4 +7,4 @@ dnb run --build
 dnb run --build=r2r
 
 dnb build --kind=aot
-./Dnb
+./App
