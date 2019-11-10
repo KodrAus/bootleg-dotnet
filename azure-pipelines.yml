@@ -23,11 +23,11 @@ stages:
     - task: CmdLine@2
       displayName: Test toolchain (manual)
       inputs:
-        script: docker run -v $(pwd)/tests:/tests $(dockerImage) /bin/bash -c 'cd /tests/Manual && ./build.sh'
+        script: docker run -v $(pwd)/tests:/tests $(dockerImage) /bin/bash -c 'cd /tests/App && ./build-manual.sh'
     - task: CmdLine@2
       displayName: Test toolchain (dnb)
       inputs:
-        script: docker run -v $(pwd)/tests:/tests $(dockerImage) /bin/bash -c 'cd /tests/Dnb && ./build.sh'
+        script: docker run -v $(pwd)/tests:/tests $(dockerImage) /bin/bash -c 'cd /tests/App && ./build-dnb.sh'
   - job: Publish
     displayName: Publish image
     dependsOn: Build
