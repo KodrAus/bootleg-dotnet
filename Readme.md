@@ -24,7 +24,16 @@ Some tools you might be used to working with are notably absent:
 - ~~`msbuild`~~
 - ~~`nuget`~~
 
-That seems pretty limiting... but there's still plenty of capability packed into the tools that are there! For an example of compiling and running a simple C# app in various forms see [this smoke-test build script](https://github.com/KodrAus/bootleg-dotnet/blob/master/tests/App/build.sh).
+That seems pretty limiting... but there's still plenty of capability packed into the tools that are there! To give you an idea, this project includes its own bootleg `dotnet`-like CLI built on the same tools listed previously that `dotnet` itself uses. It's called `dnb` (which stands for _Azure .NET Bootleg Core 5_, to fit with expected .NET 5 naming):
+
+```shell
+$ dnb
+Azure .NET Bootleg Core 5
+
+Usage: dnb restore
+Usage: dnb build [--restore] [--kind=il|r2r|aot]
+Usage: dnb run [--restore] [--build=il|r2r|aot]
+```
 
 ## What's it all for?
 
