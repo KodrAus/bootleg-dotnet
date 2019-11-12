@@ -10,11 +10,12 @@ fi
 
 case "$1" in
         --all)
-            cp $FX_DIR/*.dll .
-            cp $FX_DIR/*.so .
+            cp $CLR_DIR/*.dll .
+            cp $CLR_DIR/*.so .
+            cp $CLR_DIR/corerun .
             ;;
         *)
-            fxLib=$1
-            cp $FX_DIR/$fxLib .
+            clrLib=$1
+            cp $CLR_DIR/$clrLib .
             ;;
 esac

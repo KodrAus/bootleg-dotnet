@@ -21,17 +21,14 @@ namespace $project
 }
 
 function dorestore () {
-    for fxlib in "${fxlibs[@]}"; do
-        getfx $fxlib
-    done
-
-    getfx System.Native.so
+    getfx --all
+    getclr --all
 }
 
 function dobuild () {
     buildfxargs="$(for fxlib in "${fxlibs[@]}"; do echo -n " -r:$fxlib"; done)"
   
-    eval "csc -recurse:*.cs -out:$project.dll -r:$CLR_CORELIB $buildfxargs"
+    eval "csc -recurse:*.cs -out:$project.dll -r:System.Private.CoreLib.dll $buildfxargs"
 
     echo "csc -> $project.dll"
 
@@ -39,7 +36,7 @@ function dobuild () {
         r2r)
             mv $project.dll $project.tmp.dll
 
-            eval "crossgen $project.tmp.dll -o:$project.dll -r:$CLR_CORELIB $buildfxargs"
+            eval "crossgen $project.tmp.dll -o:$project.dll -r:System.Private.CoreLib.dll $buildfxargs"
 
             rm $project.tmp.dll
 
@@ -89,7 +86,7 @@ function dorun () {
             
             ;;
         lldb)
-            lldb-3.9 -o "plugin load /usr/lib/libsosplugin.so" $CLR_DIR/corerun -- $project.dll
+            lldb-3.9 -o "plugin load /dotnet/dist/sos/libsosplugin.so" ./corerun -- $project.dll
 
             ;;
     esac
