@@ -28,7 +28,7 @@ function dorestore () {
 function dobuild () {
     buildfxargs="$(for fxlib in "${fxlibs[@]}"; do echo -n " -r:$fxlib"; done)"
   
-    eval "csc -recurse:*.cs -out:$project.dll -r:System.Private.CoreLib.dll $buildfxargs"
+    eval "csc -recurse:*.cs -out:$project.dll -debug:pdbonly -r:System.Private.CoreLib.dll $buildfxargs"
 
     echo "csc -> $project.dll"
 
