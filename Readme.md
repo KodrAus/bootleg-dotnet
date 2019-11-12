@@ -30,9 +30,10 @@ That seems pretty limiting... but there's still plenty of capability packed into
 $ dnb
 Azure .NET Bootleg Core 5
 
+Usage: dnb new
 Usage: dnb restore
 Usage: dnb build [--restore] [--kind=il|r2r|aot]
-Usage: dnb run [--restore] [--build=il|r2r|aot]
+Usage: dnb run [--restore] [--build=il|r2r] [--debug]
 ```
 
 ## What's it all for?
