@@ -4,6 +4,22 @@ set -o errexit -o nounset
 
 OPTIND=1
 
+function donew () {
+    echo "using System;
+        
+namespace $project
+{
+    static class Program
+    {
+        static void Main()
+        {
+            Console.WriteLine(\"Waiting for input...\");
+            var ping = Console.ReadLine();
+        }
+    }
+}" > Program.cs
+}
+
 function dorestore () {
     for fxlib in "${fxlibs[@]}"; do
         getfx $fxlib
@@ -17,7 +33,7 @@ function dobuild () {
   
     eval "csc -recurse:*.cs -out:$project.dll -r:$CLR_CORELIB $buildfxargs"
 
-    echo "-> $project.dll"
+    echo "csc -> $project.dll"
 
     case "$buildkind" in
         r2r)
@@ -27,7 +43,7 @@ function dobuild () {
 
             rm $project.tmp.dll
 
-            echo "-> $project.dll"
+            echo "crossgen -> $project.dll"
             
             ;;
         aot)
@@ -37,7 +53,7 @@ function dobuild () {
             
             eval "ilc $project.dll -o:$project.o $buildrtargs $buildrtsdkargs $buildexargs"
 
-            echo "$project.dll -> $project.o"
+            echo "ilc $project.dll -> $project.o"
             
             clang-3.9 $project.o -o $project \
                 /dotnet/dist/rt/sdk/libbootstrapper.a \
@@ -60,14 +76,23 @@ function dobuild () {
                 -lgssapi_krb5 \
                 -lrt
             
-            echo "$project.o -> $project"
+            echo "clang $project.o -> $project"
 
             ;;
     esac
 }
 
 function dorun () {
-    corerun $project.dll
+    case "$runkind" in
+        corerun)
+            corerun $project.dll
+            
+            ;;
+        lldb)
+            lldb-3.9 -o "plugin load /usr/lib/libsosplugin.so" $CLR_DIR/corerun -- $project.dll
+
+            ;;
+    esac
 }
 
 if [ -z "${1:-}" ]; then
@@ -253,6 +278,10 @@ declare -a rtlibs=(
 project=${PWD##*/}
 
 case "$kind" in
+    new)
+        donew
+
+        exit 0;;
     restore)
         dorestore
 
@@ -283,6 +312,7 @@ case "$kind" in
     run)
         buildrestore=0
         buildkind=""
+        runkind="corerun"
 
         while getopts ":-:" optchar; do
             case "${optchar}" in
@@ -290,6 +320,9 @@ case "$kind" in
                     case "${OPTARG}" in
                         restore)
                             buildrestore=1
+                            ;;
+                        debug)
+                            runkind="lldb"
                             ;;
                         build)
                             buildkind="il"
@@ -310,14 +343,15 @@ case "$kind" in
         fi
 
         dorun
-        
+
         exit 0;;
     *)
         echo "Azure .NET Bootleg Core 5"
         echo
+        echo "Usage: dnb new"
         echo "Usage: dnb restore"
         echo "Usage: dnb build [--restore] [--kind=il|r2r|aot]"
-        echo "Usage: dnb run [--restore] [--build=il|r2r|aot]"
+        echo "Usage: dnb run [--restore] [--build=il|r2r] [--debug]"
 
         exit 0;;
 esac
