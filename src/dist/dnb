@@ -6,7 +6,7 @@ OPTIND=1
 
 function donew () {
     echo "using System;
-        
+
 namespace $project
 {
     static class Program
