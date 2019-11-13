@@ -1,14 +1,5 @@
 FROM ubuntu:18.04
 
-ARG CORECLR_REF=9db8990bca7e0f44f60494d2608342a930d484ca
-ARG LLVM_REF=6a075b6de4cafebec9ca1ff9eec7229a617c93f6
-ARG COREFX_REF=8d87e5cae96c5fb25ac21442bb56c337029d77a4
-ARG CORERT_REF=06c9c38fece653e1c8b1628908971edab183433c
-ARG DIAGNOSTICS_REF=95e92dbc744e03995a2d2f8b30e457babac312aa
-ARG ROSLYN_REF=7d97db435f1d30285efdc8f77e1d573ea8b5075a
-ARG NANORC_REF=1ba2698c05d6394a459b12667db162f5dfa75145
-
-# build and runtime dependencies
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get -y install --no-install-recommends \
         git \
@@ -44,18 +35,22 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
     rm -rf /var/lib/apt/lists/*
 
 ARG CLEAN_SRC=0
-
-COPY dist /dotnet/dist
+ARG CORECLR_REF=9db8990bca7e0f44f60494d2608342a930d484ca
+ARG LLVM_REF=6a075b6de4cafebec9ca1ff9eec7229a617c93f6
+ARG COREFX_REF=8d87e5cae96c5fb25ac21442bb56c337029d77a4
+ARG CORERT_REF=06c9c38fece653e1c8b1628908971edab183433c
+ARG DIAGNOSTICS_REF=95e92dbc744e03995a2d2f8b30e457babac312aa
+ARG ROSLYN_REF=7d97db435f1d30285efdc8f77e1d573ea8b5075a
 
 COPY build /dotnet/build
 COPY patch /dotnet/src/patch
 
 RUN /dotnet/build/build.sh
-
 RUN apt-get remove -y nuget
 
-ENV PATH="/dotnet/dist:${PATH}"
+COPY dist /dotnet/dist
 
+ENV PATH="/dotnet/dist:${PATH}"
 ENV CLR_DIR=/dotnet/dist/clr
 ENV RT_DIR=/dotnet/dist/rt
 ENV FX_DIR=/dotnet/dist/fx

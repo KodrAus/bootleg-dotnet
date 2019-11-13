@@ -36,10 +36,5 @@ mkdir -p /dotnet/src/sdk/roslyn && cd /dotnet/src/sdk/roslyn
 git clone https://github.com/dotnet/roslyn.git .
 git checkout $ROSLYN_REF
 
-# src: etc: nanorc
-mkdir -p /dotnet/src/etc/nanorc && cd /dotnet/src/etc/nanorc
-git clone https://github.com/scopatz/nanorc.git .
-git checkout $NANORC_REF
-
 mkdir -p /dotnet/dist
 mkdir -p /dotnet/src/packages/symbols
