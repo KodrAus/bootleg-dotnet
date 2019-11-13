@@ -21,17 +21,14 @@ namespace $project
 }
 
 function dorestore () {
-    for fxlib in "${fxlibs[@]}"; do
-        getfx $fxlib
-    done
-
-    getfx System.Native.so
+    getfx --all
+    getclr --all
 }
 
 function dobuild () {
     buildfxargs="$(for fxlib in "${fxlibs[@]}"; do echo -n " -r:$fxlib"; done)"
   
-    eval "csc -recurse:*.cs -out:$project.dll -r:$CLR_CORELIB $buildfxargs"
+    eval "csc -recurse:*.cs -out:$project.dll -debug:pdbonly -r:System.Private.CoreLib.dll $buildfxargs"
 
     echo "csc -> $project.dll"
 
@@ -39,7 +36,7 @@ function dobuild () {
         r2r)
             mv $project.dll $project.tmp.dll
 
-            eval "crossgen $project.tmp.dll -o:$project.dll -r:$CLR_CORELIB $buildfxargs"
+            eval "crossgen $project.tmp.dll -o:$project.dll -r:System.Private.CoreLib.dll $buildfxargs"
 
             rm $project.tmp.dll
 
@@ -47,8 +44,8 @@ function dobuild () {
             
             ;;
         aot)
-            buildrtargs="$(for fxlib in "${fxlibs[@]}"; do echo -n " -r:/dotnet/dist/rt/framework/$fxlib"; done)"
-            buildrtsdkargs="$(for rtlib in "${rtlibs[@]}"; do echo -n " -r:/dotnet/dist/rt/sdk/$rtlib"; done)"
+            buildrtargs="$(for fxlib in "${fxlibs[@]}"; do echo -n " -r:$RT_DIR/framework/$fxlib"; done)"
+            buildrtsdkargs="$(for rtlib in "${rtlibs[@]}"; do echo -n " -r:$RT_DIR/sdk/$rtlib"; done)"
             buildexargs="-g --initassembly:System.Private.CoreLib --initassembly:System.Private.DeveloperExperience.Console --initassembly:System.Private.StackTraceMetadata --initassembly:System.Private.TypeLoader --initassembly:System.Private.Reflection.Execution --initassembly:System.Private.Interop --completetypemetadata --stacktracedata --rootallapplicationassemblies --scanreflection --removefeature:CurlHandler"
             
             eval "ilc $project.dll -o:$project.o $buildrtargs $buildrtsdkargs $buildexargs"
@@ -56,16 +53,16 @@ function dobuild () {
             echo "ilc $project.dll -> $project.o"
             
             clang-3.9 $project.o -o $project \
-                /dotnet/dist/rt/sdk/libbootstrapper.a \
-                /dotnet/dist/rt/sdk/libRuntime.a \
-                /dotnet/dist/rt/sdk/libSystem.Private.CoreLib.Native.a \
-                /dotnet/dist/rt/sdk/libSystem.Private.TypeLoader.Native.a \
-                /dotnet/dist/rt/framework/System.Native.a \
-                /dotnet/dist/rt/framework/System.Net.Http.Native.a \
-                /dotnet/dist/rt/framework/System.Globalization.Native.a \
-                /dotnet/dist/rt/framework/System.IO.Compression.Native.a \
-                /dotnet/dist/rt/framework/System.Net.Security.Native.a \
-                /dotnet/dist/rt/framework/System.Security.Cryptography.Native.OpenSsl.a \
+                $RT_DIR/sdk/libbootstrapper.a \
+                $RT_DIR/sdk/libRuntime.a \
+                $RT_DIR/sdk/libSystem.Private.CoreLib.Native.a \
+                $RT_DIR/sdk/libSystem.Private.TypeLoader.Native.a \
+                $RT_DIR/framework/System.Native.a \
+                $RT_DIR/framework/System.Net.Http.Native.a \
+                $RT_DIR/framework/System.Globalization.Native.a \
+                $RT_DIR/framework/System.IO.Compression.Native.a \
+                $RT_DIR/framework/System.Net.Security.Native.a \
+                $RT_DIR/framework/System.Security.Cryptography.Native.OpenSsl.a \
                 -g \
                 -Wl,--as-needed \
                 -pthread \
@@ -89,7 +86,7 @@ function dorun () {
             
             ;;
         lldb)
-            lldb-3.9 -o "plugin load /usr/lib/libsosplugin.so" $CLR_DIR/corerun -- $project.dll
+            lldb-3.9 -o "plugin load $SOS_DIR/libsosplugin.so" ./corerun -- $project.dll
 
             ;;
     esac

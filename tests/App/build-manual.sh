@@ -10,10 +10,11 @@ getfx System.Runtime.dll
 getfx System.Text.Encoding.Extensions.dll
 getfx System.Threading.dll
 getfx System.Native.so
+getclr System.Private.CoreLib.dll
 
 echo "Building with csc..."
 csc -recurse:*.cs -out:App.dll \
-  -r:$CLR_CORELIB \
+  -r:System.Private.CoreLib.dll \
   -r:System.Console.dll \
   -r:System.Runtime.dll
 
@@ -28,7 +29,7 @@ COMPlus_JitDisasm="App.Program:*" corerun App.dll
 echo "Pre-JIT'ing..."
 mv App.dll App.il.dll
 crossgen App.il.dll -o:App.dll \
-  -r:$CLR_CORELIB \
+  -r:System.Private.CoreLib.dll \
   -r:System.Console.dll \
   -r:System.Runtime.dll
 

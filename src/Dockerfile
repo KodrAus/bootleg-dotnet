@@ -60,4 +60,3 @@ ENV CLR_DIR=/dotnet/dist/clr
 ENV RT_DIR=/dotnet/dist/rt
 ENV FX_DIR=/dotnet/dist/fx
 ENV SOS_DIR=/dotnet/dist/sos
-ENV CLR_CORELIB=/dotnet/dist/clr/System.Private.CoreLib.dll
