@@ -46,7 +46,7 @@ COPY build /dotnet/build
 COPY patch /dotnet/src/patch
 
 RUN /dotnet/build/build.sh
-RUN apt-get remove -y nuget
+RUN apt-get remove -y nuget *mono*
 
 COPY dist /dotnet/dist
 
