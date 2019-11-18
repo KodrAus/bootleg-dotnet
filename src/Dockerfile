@@ -26,6 +26,8 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
         nuget \
         nano \
         tree \
+        file \
+        indent \
         radare2 \
     2>&1 && \
     curl -L https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | apt-key add - && \
