@@ -1,4 +1,5 @@
 using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Serilog;
@@ -35,13 +36,12 @@ namespace Host
             }
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder
-                        .UseStartup<Startup>()
-                        .UseSerilog();
-                });
+        static IHostBuilder CreateHostBuilder(string[] args) =>
+            WebHost
+                .CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder => webBuilder
+                    .UseSerilog()
+                    .Configure(app => app
+                        .Use((ctx, next) => Proxy.HandleAsync(ctx))));
     }
 }
