@@ -3,7 +3,7 @@
 set -o errexit -o nounset
 
 if [[ -z "${1:-}" ]] || [[ -z "${2:-}" ]]; then
-    echo "usage: $0 [jit|r2r|aot] [api/weather]"
+    echo "usage: $0 [coreclr-jit|coreclr-r2r|corert-aot] [api/weather]"
     exit 0
 fi
 
